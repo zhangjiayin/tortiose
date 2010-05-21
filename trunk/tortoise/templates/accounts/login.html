@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*- 
-<%inherit file="/base.html"/>\
-<%def name="title()">Create New Account</%def>
+<%inherit file="/base.html"/>
+<%def name="title()">login page</%def>
 <div class="container showgrid">
-    <h1>Create New Account</h1>
+    <h1>login to our site</h1>
     <hr>
+    <div class="span-24" style="height:50%;">
+        &nbsp;
+    </div>
     <div class="span-24">
-        <form action="/accounts/createaccount" method="post">
+        <form action="/accounts/loginauth" method="post">
             <fieldset>
                 <legend>submit your infomation</legend>
                 <label for="dummy0">you email</label><br>
@@ -30,42 +33,6 @@
                 <div class="span-24">
                     <div class="span-10">
                         <input type="password" class="text" id="password" name="password" value="" />
-                    </div>
-                    <div class="span-13">
-                        <div class="error hide">
-                            This is a &lt;div&gt; with the class <strong>.error</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="notice hide">
-                            This is a &lt;div&gt; with the class <strong>.notice</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="success hide">
-                            This is a &lt;div&gt; with the class <strong>.success</strong>. <a href="#">Link</a>.
-                        </div>
-                    </div>
-                </div>
-
-                <label for="dummy1">confirm your password</label><br>
-                <div class="span-24">
-                    <div class="span-10">
-                        <input type="password" class="text" id="password_confirm" name="password_confirm" value="" />
-                    </div>
-                    <div class="span-13">
-                        <div class="error hide">
-                            This is a &lt;div&gt; with the class <strong>.error</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="notice hide">
-                            This is a &lt;div&gt; with the class <strong>.notice</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="success hide">
-                            This is a &lt;div&gt; with the class <strong>.success</strong>. <a href="#">Link</a>.
-                        </div>
-                    </div>
-                </div>
-
-                <label for="dummy1">your nickname</label><br>
-                <div class="span-24">
-                    <div class="span-10">
-                        <input type="text" class="text" id="nickname" name="nickname" value=""/>
                     </div>
                     <div class="span-13">
                         <div class="error hide">
