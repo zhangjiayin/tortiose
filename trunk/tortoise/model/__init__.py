@@ -27,6 +27,19 @@ def init_model(engine):
 #
 #orm.mapper(Foo, foo_table)
 
+user_table = sa.Table("user", meta.metadata,
+        sa.Column("id", sa.types.String(40), primary_key=True),
+        sa.Column("email", sa.types.String(50), nullable=False),
+        sa.Column("nickname", sa.types.String(50), nullable=False),
+        sa.Column("password", sa.types.String(32), nullable=False),
+        )
+
+class UserBase(object):
+    pass
+
+orm.mapper(UserBase, user_table)
+
+
 
 ## Classes for reflected tables may be defined here, but the table and
 ## mapping itself must be done in the init_model function

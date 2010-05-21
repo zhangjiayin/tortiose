@@ -9,6 +9,8 @@ from tortoise.lib.base import BaseController, render
 from pylons.decorators import validate
 from pylons import session
 from tortoise.model.form import *
+from tortoise.model import meta
+from tortoise.model.account import *
 
 log = logging.getLogger(__name__)
 
@@ -21,10 +23,18 @@ class AccountsController(BaseController):
         return 'Hello World'
 
     def newaccount(self):
+        if request.params.get("error"):
+            key = request.params.get('error')
+            c.error = key 
+            c.message = common_messages[key]
+
         return render('accounts/newaccount.html')
 
     @validate(schema=NewAccountForm(), form='newaccount', post_only=False, on_get=True,auto_error_formatter=account_formatter)
     def createaccount(self):
+        account_mode = AccountModel()
+
+        response.write(str(account_mode.checkMailExists(request.params.get('email'))))
         response.write(request.method)
         response.write(str(request.params.get('email')))
         response.write(str(request.POST.has_key('aaa')))
@@ -36,4 +46,7 @@ class AccountsController(BaseController):
     def loginauth(self):
         response.write(str(request.params.get('email')))
         response.write(str(request.POST.has_key('password')))
+
+    def checkUserExists(self):
+        return 'Noting'
 

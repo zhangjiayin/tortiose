@@ -13,6 +13,7 @@ from formencode.api import NoDefault
 common_messages ={ 
         'empty': u'不能为空',
         'badType': u'必须输入一个字符串(不能是 %(type)s: %(value)r)',
+        'mail_exisit': u'email 已经注册了',
         }
 
 class SecurePassword(formencode.validators.FancyValidator):
@@ -48,7 +49,7 @@ class NewAccountForm(Schema):
     password = SecurePassword()
     password_confirm = String(not_empty=True)
 
-    chained_validators = [formencode.validators.FieldsMatch('password', 'password_confirm')]
+    chained_validators = [formencode.validators.FieldsMatch('password', 'password_confirm', messages={'invalidNoMatch': u"密码不匹配"})]
 
     nickname           = String(not_empty=True)
 
