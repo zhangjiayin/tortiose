@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        % if hasattr(self, 'title'):
+        <title>${self.title()}</title>
+        % endif
+        ${h.stylesheet_link('/css/screen.css',  media="screen, projection")}
+        ${h.stylesheet_link('/css/print.css',  media="screen")}
+        <!--[if lt IE 8]><link rel="stylesheet" href="/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+
+        % if hasattr(self, 'css'):
+            % for item in c.css():
+                ${h.stylesheet_link(item)}
+            % endfor
+        % endif
+
+        % if hasattr(self, 'js'):
+            % for item in c.css():
+                ${h.javascript_link(item)}
+            % endfor
+        % endif
+    </head>
+    <body>
+        ${self.body()}
+    </body>
+</html>
