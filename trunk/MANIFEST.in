@@ -1,0 +1,3 @@
+include tortoise/config/deployment.ini_tmpl
+recursive-include tortoise/public *
+recursive-include tortoise/templates *
