@@ -14,9 +14,11 @@
                         <input type="text" class="title" name="email" id="email" value="" />
                     </div>
                     <div class="span-13">
-                        <div class="error hide">
-                            This is a &lt;div&gt; with the class <strong>.error</strong>. <a href="#">Link</a>.
+		    	%if c.error == "mail_exist":
+                        <div class="error">
+                          ${c.message}
                         </div>
+			%endif 
                         <div class="notice hide">
                             This is a &lt;div&gt; with the class <strong>.notice</strong>. <a href="#">Link</a>.
                         </div>
@@ -65,7 +67,7 @@
                 <label for="dummy1">your nickname</label><br>
                 <div class="span-24">
                     <div class="span-10">
-                        <input type="text" class="text" id="nickname" name="nickname" value=""/>
+                        <input type="text" class="text" id="nick" name="nick" value=""/>
                     </div>
                     <div class="span-13">
                         <div class="error hide">

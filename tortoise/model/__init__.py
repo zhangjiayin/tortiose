@@ -1,6 +1,7 @@
 """The application's model objects"""
 import sqlalchemy as sa
 from sqlalchemy import orm
+from sqlalchemy.sql import and_
 
 from tortoise.model import meta
 
@@ -30,12 +31,51 @@ def init_model(engine):
 user_table = sa.Table("user", meta.metadata,
         sa.Column("id", sa.types.String(40), primary_key=True),
         sa.Column("email", sa.types.String(50), nullable=False),
-        sa.Column("nickname", sa.types.String(50), nullable=False),
+        sa.Column("nick", sa.types.String(50), nullable=False),
         sa.Column("password", sa.types.String(32), nullable=False),
+        sa.Column("registe_time", sa.types.Integer, nullable=False),
         )
-
 class UserBase(object):
-    pass
+
+    query = None
+
+    def __str__(self):
+        return self.nick
+    def __repr__(self):
+        return self.nick
+    @classmethod
+    def getQuery(cls):
+        if cls.query == None:
+            cls.query = meta.Session.query(UserBase)
+        return cls.query
+
+    @classmethod
+    def checkMailExists(cls, email):
+	return cls.getQuery().filter(UserBase.email==email).count() > 0
+
+    @classmethod
+    def auth(cls, email, password):
+        u = cls.getQuery().filter(and_(UserBase.email==email)).first()
+
+        """import logging
+        log = logging.getLogger(__name__)
+        log.info(u.password + " =" + password)
+        log.info(u)"""
+        import logging
+        log = logging.getLogger(__name__)
+
+        if u != None and u.password == password:
+            log.info(u.password + " =" + password)
+            log.info(u)
+            return u
+        else:
+            log.info('None returned')
+            return None
+
+    @classmethod
+    def getUserBaseById(cls, id):
+        return cls.getQuery().filter(and_(UserBase.id==id)).first()
+
 
 orm.mapper(UserBase, user_table)
 
