@@ -12,6 +12,10 @@ from tortoise.model.form import *
 from tortoise.model import meta
 from tortoise.model.account import *
 
+import uuid, hashlib,time
+
+from pylons import session
+
 log = logging.getLogger(__name__)
 
 class AccountsController(BaseController):
@@ -25,27 +29,42 @@ class AccountsController(BaseController):
     def newaccount(self):
         if request.params.get("error"):
             key = request.params.get('error')
-            c.error = key 
+            c.error = key
             c.message = common_messages[key]
 
         return render('accounts/newaccount.html')
 
     @validate(schema=NewAccountForm(), form='newaccount', post_only=False, on_get=True,auto_error_formatter=account_formatter)
     def createaccount(self):
-        account_mode = AccountModel()
+        if  not (UserBase.checkMailExists(request.params.get('email'))):
+	    userBase = UserBase()
+	    userBase.id = uuid.uuid4()
+	    userBase.email = request.params.get('email')
+	    userBase.nick = request.params.get('nick')
+	    userBase.password = hashlib.md5(request.params.get('password')).hexdigest()
+	    userBase.registe_time = int(time.time())
+	    meta.Session.add(userBase)
+	    meta.Session.flush()
+            session['user'] = userBase
+            session.save()
+	    redirect_to('/')
+	else:
+	    redirect_to(controller='accounts', action='newaccount', _code=303, error="mail_exist")
 
-        response.write(str(account_mode.checkMailExists(request.params.get('email'))))
-        response.write(request.method)
-        response.write(str(request.params.get('email')))
-        response.write(str(request.POST.has_key('aaa')))
 
     def login(self):
         return render('accounts/login.html')
 
     @validate(schema=LoginForm(), form='login', post_only=False, on_get=True,auto_error_formatter=account_formatter)
     def loginauth(self):
-        response.write(str(request.params.get('email')))
-        response.write(str(request.POST.has_key('password')))
+        userBase = UserBase.auth(request.params.get('email'),hashlib.md5(request.params.get('password')).hexdigest())
+
+        if(userBase):
+            session['user'] = userBase
+            session.save()
+	    redirect_to('/')
+        else:
+	    redirect_to(controller='accounts', action='login', _code=303, error="login_error")
 
     def checkUserExists(self):
         return 'Noting'
