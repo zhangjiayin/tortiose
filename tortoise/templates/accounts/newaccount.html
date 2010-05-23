@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 <%inherit file="/base.html"/>\
 <%def name="title()">Create New Account</%def>
 <div class="container showgrid">
@@ -14,18 +14,13 @@
                         <input type="text" class="title" name="email" id="email" value="" />
                     </div>
                     <div class="span-13">
+                        <form:error name="email">
 		    	%if c.error == "mail_exist":
                         <div class="error">
                           ${c.message}
                         </div>
-			%endif 
-                        <div class="notice hide">
-                            This is a &lt;div&gt; with the class <strong>.notice</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="success hide">
-                            This is a &lt;div&gt; with the class <strong>.success</strong>. <a href="#">Link</a>.
-                        </div>
-                    </div>
+                        %endif
+                   </div>
                 </div>
 
                 <label for="dummy1">your password</label><br>
@@ -34,15 +29,7 @@
                         <input type="password" class="text" id="password" name="password" value="" />
                     </div>
                     <div class="span-13">
-                        <div class="error hide">
-                            This is a &lt;div&gt; with the class <strong>.error</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="notice hide">
-                            This is a &lt;div&gt; with the class <strong>.notice</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="success hide">
-                            This is a &lt;div&gt; with the class <strong>.success</strong>. <a href="#">Link</a>.
-                        </div>
+                        <form:error name="email">
                     </div>
                 </div>
 
@@ -52,15 +39,7 @@
                         <input type="password" class="text" id="password_confirm" name="password_confirm" value="" />
                     </div>
                     <div class="span-13">
-                        <div class="error hide">
-                            This is a &lt;div&gt; with the class <strong>.error</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="notice hide">
-                            This is a &lt;div&gt; with the class <strong>.notice</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="success hide">
-                            This is a &lt;div&gt; with the class <strong>.success</strong>. <a href="#">Link</a>.
-                        </div>
+                        <form:error name="password_confirm">
                     </div>
                 </div>
 
@@ -70,15 +49,7 @@
                         <input type="text" class="text" id="nick" name="nick" value=""/>
                     </div>
                     <div class="span-13">
-                        <div class="error hide">
-                            This is a &lt;div&gt; with the class <strong>.error</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="notice hide">
-                            This is a &lt;div&gt; with the class <strong>.notice</strong>. <a href="#">Link</a>.
-                        </div>
-                        <div class="success hide">
-                            This is a &lt;div&gt; with the class <strong>.success</strong>. <a href="#">Link</a>.
-                        </div>
+                        <form:error name="nick">
                     </div>
                 </div>
                 <p>

@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `feed_source_cnt` (
   `update_time` int(11) NOT NULL,
   `cnt` int(11) NOT NULL,
   UNIQUE KEY `id` (`id`,`update_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `feed_source_cnt`
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `manager` (
   `role` int(11) NOT NULL,
   `atime` int(11) NOT NULL,
   PRIMARY KEY (`userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `manager`
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `user_subscribe` (
   `source_id` int(11) NOT NULL,
   `add_time` int(11) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user_subscribe`

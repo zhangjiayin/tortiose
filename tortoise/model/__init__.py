@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """The application's model objects"""
 import sqlalchemy as sa
 from sqlalchemy import orm
@@ -33,8 +34,17 @@ user_table = sa.Table("user", meta.metadata,
         sa.Column("email", sa.types.String(50), nullable=False),
         sa.Column("nick", sa.types.String(50), nullable=False),
         sa.Column("password", sa.types.String(32), nullable=False),
-        sa.Column("registe_time", sa.types.Integer, nullable=False),
+        sa.Column("register_time", sa.types.Integer, nullable=False),
+        sa.Column("register_ip", sa.types.Integer, nullable=False),
         )
+
+user_profile_table = sa.Table("user_profile", meta.metadata,
+        sa.Column("id", sa.types.String(40), primary_key=True),
+        sa.Column("birthday", sa.types.DateTime, nullable=False),
+        sa.Column("carrer", sa.types.UnicodeText, nullable=False),
+        sa.Column("google_account", sa.types.UnicodeText, nullable=False),
+        )
+
 class UserBase(object):
 
     query = None
@@ -57,27 +67,35 @@ class UserBase(object):
     def auth(cls, email, password):
         u = cls.getQuery().filter(and_(UserBase.email==email)).first()
 
-        """import logging
-        log = logging.getLogger(__name__)
-        log.info(u.password + " =" + password)
-        log.info(u)"""
-        import logging
-        log = logging.getLogger(__name__)
-
         if u != None and u.password == password:
-            log.info(u.password + " =" + password)
-            log.info(u)
             return u
         else:
-            log.info('None returned')
             return None
 
     @classmethod
     def getUserBaseById(cls, id):
         return cls.getQuery().filter(and_(UserBase.id==id)).first()
 
+class UserProfile(object):
+    query = None
+    def __init__(self):
+        self.id = ''
+        self.birthday = ''
+        self.carrer = ''
+        self.google_account = ''
+
+    @classmethod
+    def getQuery(cls):
+        if cls.query == None:
+            cls.query = meta.Session.query(UserProfile)
+        return cls.query
+
+    @classmethod
+    def getUserProfileById(cls, id):
+        return cls.getQuery().filter(UserProfile.id==id).first()
 
 orm.mapper(UserBase, user_table)
+orm.mapper(UserProfile, user_profile_table)
 
 
 

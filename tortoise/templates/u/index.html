@@ -2,15 +2,16 @@
 <%inherit file="/base.html"/>
 <%def name="title()">login page</%def>
 <div class="container showgrid">
-    <h1>login to our site</h1>
+    <h1>欢迎您 ${c.userBase.nick}</h1>
     <hr>
     <div class="span-24" style="height:50%;">
         &nbsp;
     </div>
     <div class="span-24">
-        <form action="/accounts/loginauth" method="post">
+        % if c.userProfile == None:
+        <form action="${h.url_for(controller='u', action='relating')}" method="post">
             <fieldset>
-                <legend>submit your infomation</legend>
+                <legend>关联您的google账户</legend>
                 <label for="dummy0">you email</label><br>
                 <div class="span-24">
                     <div class="span-10">
@@ -36,6 +37,10 @@
                 </p>
             </fieldset>
         </form>
+        % else:
+        ${c.userBase.email}
+        ${c.userProfile.google_account['email']}
+        % endif
     </div>
     <div class="span-12 last">
     </div>
