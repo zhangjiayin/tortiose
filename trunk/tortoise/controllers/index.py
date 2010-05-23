@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import logging
 
 from pylons import request, response, session, tmpl_context as c
@@ -12,13 +13,7 @@ log = logging.getLogger(__name__)
 class IndexController(BaseController):
 
     def index(self):
-        response.write(str(type(session['user'])))
-
-        if ('user' in session) and session['user'] != None:
-            response.write(session['user'].email)
-            response.write('<br />')
-            response.write(str(session['user'].nick))
-            response.write('<br />')
-            response.write(str(session['user'].id))
+        if 'auth_user_id' in session:
+            redirect_to(controller='u', action='index', id=session['auth_user_id'])
         else:
-            response.write('not login')
+	    redirect_to(controller='accounts', action='login', _code=302)

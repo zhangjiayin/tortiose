@@ -4,7 +4,7 @@ import logging
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
 
-from tortoise.lib.base import BaseController, render
+from tortoise.lib.base import BaseController, render, ip2long
 
 from pylons.decorators import validate
 from pylons import session
@@ -15,6 +15,9 @@ from tortoise.model.account import *
 import uuid, hashlib,time
 
 from pylons import session
+
+import socket, struct
+import formencode
 
 log = logging.getLogger(__name__)
 
@@ -42,10 +45,14 @@ class AccountsController(BaseController):
 	    userBase.email = request.params.get('email')
 	    userBase.nick = request.params.get('nick')
 	    userBase.password = hashlib.md5(request.params.get('password')).hexdigest()
-	    userBase.registe_time = int(time.time())
+	    userBase.register_time = int(time.time())
+
+	    userBase.register_ip = ip2long(request.environ.get("X_FORWARDED_FOR", request.environ["REMOTE_ADDR"]))
+
 	    meta.Session.add(userBase)
 	    meta.Session.flush()
-            session['user'] = userBase
+            session['auth_user_id'] = userBase.id
+            session['auth_user'] = userBase
             session.save()
 	    redirect_to('/')
 	else:
@@ -60,7 +67,8 @@ class AccountsController(BaseController):
         userBase = UserBase.auth(request.params.get('email'),hashlib.md5(request.params.get('password')).hexdigest())
 
         if(userBase):
-            session['user'] = userBase
+            session['auth_user_id'] = userBase.id
+            session['auth_user'] = userBase
             session.save()
 	    redirect_to('/')
         else:

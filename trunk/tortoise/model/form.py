@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 import formencode
 import re
 from formencode import htmlfill
@@ -9,8 +9,7 @@ from formencode import variabledecode
 from formencode import htmlfill
 from formencode.foreach import ForEach
 from formencode.api import NoDefault
-
-common_messages ={ 
+common_messages ={
         'empty': u'不能为空',
         'badType': u'必须输入一个字符串(不能是 %(type)s: %(value)r)',
         'mail_exist': u'email 已经注册了',
@@ -49,7 +48,7 @@ class NewAccountForm(Schema):
     password = SecurePassword()
     password_confirm = String(not_empty=True)
 
-    chained_validators = [formencode.validators.FieldsMatch('password', 'password_confirm', messages={'invalidNoMatch': u"密码不匹配"})]
+    chained_validators = [formencode.validators.FieldsMatch('password', 'password_confirm', messages={'invalidnomatch': u"密码不匹配"})]
 
     nick           = String(not_empty=True)
 
@@ -57,6 +56,10 @@ def account_formatter(error):
         return '<div class="error">%s</div>' % ( htmlfill.html_quote(error))
 
 class LoginForm(Schema):
+    email = formencode.validators.Email(not_empty=True)
+    password        = String(not_empty=True)
+
+class RelatingGoogleForm(Schema):
     email = formencode.validators.Email(not_empty=True)
     password        = String(not_empty=True)
 
