@@ -23,17 +23,17 @@ import json
 
 from tortoise.lib.pyrfeed.GoogleReader import *
 
+from tortoise.lib.auth import *
+
 log = logging.getLogger(__name__)
 
 class UController(BaseController):
 
+    @require_login
     def index(self, id=None):
-
         # Return a rendered template
         #return render('/u.mako')
         # or, return a response
-        if id == None or (not 'auth_user_id' in session) or session['auth_user_id'] == None:
-            return redirect_to(controller='accounts', action='login')
 
         userBase = UserBase.getUserBaseById(session['auth_user_id'])
         userProfile = UserProfile.getUserProfileById(userBase.id)
@@ -49,7 +49,8 @@ class UController(BaseController):
         c.userProfile = userProfile
         c.userBase  = userBase
         return render('/u/index.html')
-
+    
+    @require_login
     @validate(schema=RelatingGoogleForm(), form='index', post_only=False, on_get=True,auto_error_formatter=account_formatter)
     def relating(self, id=None):
         if id == None or (not 'auth_user_id' in session) or session['auth_user_id'] == None:
@@ -61,6 +62,7 @@ class UController(BaseController):
         if(userProfile == None):
             userProfile = UserProfile()
             userProfile.id = userBase.id
+
         google_account = unicode(json.dumps({'email':request.params.get('email'), 'password':request.params.get('password')}))
         userProfile.google_account = google_account
 
