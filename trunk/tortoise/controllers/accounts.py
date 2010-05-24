@@ -75,6 +75,9 @@ class AccountsController(BaseController):
         else:
 	    redirect_to(controller='accounts', action='login', _code=303, error="login_error")
 
+    def logout(self):
+        session.delete()
+        redirect_to('/')
     def checkUserExists(self):
         return 'Noting'
 
