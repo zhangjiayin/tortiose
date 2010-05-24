@@ -32,7 +32,6 @@ class UController(BaseController):
         # Return a rendered template
         #return render('/u.mako')
         # or, return a response
-
         if id == None or (not 'auth_user_id' in session) or session['auth_user_id'] == None:
             return redirect_to(controller='accounts', action='login')
 
@@ -40,14 +39,13 @@ class UController(BaseController):
         userProfile = UserProfile.getUserProfileById(userBase.id)
         if userProfile != None  and userProfile.google_account:
             google_account = json.loads(userProfile.google_account)
-            userProfile.google_account = google_account
+            c.google_account = google_account
             gr = GoogleReader()
             gr.identify(google_account['email'], google_account['email'])
-            #if gr.login():
-            #    c.logined = True
-            #else:
-            #    c.logined = Flase
-
+            if gr.login():
+                c.logined = True
+            else:
+                c.logined = False
         c.userProfile = userProfile
         c.userBase  = userBase
         return render('/u/index.html')

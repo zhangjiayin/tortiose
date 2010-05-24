@@ -43,7 +43,8 @@ class AccountsController(BaseController):
 	    userBase = UserBase()
 	    userBase.id = uuid.uuid4()
 	    userBase.email = request.params.get('email')
-	    userBase.nick = request.params.get('nick')
+	    userBase.nick = request.params.get('nick').encode('utf8')
+
 	    userBase.password = hashlib.md5(request.params.get('password')).hexdigest()
 	    userBase.register_time = int(time.time())
 
