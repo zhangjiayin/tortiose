@@ -60,8 +60,7 @@ feed_source_table = sa.Table("feed_source", meta.metadata,
         sa.Column("url", sa.types.String(255), nullable=False),
         sa.Column("add_time", sa.types.Integer, nullable=False),
         sa.Column("update_time", sa.types.Integer, nullable=False),
-
-        )
+)
 
 class UserBase(object):
 

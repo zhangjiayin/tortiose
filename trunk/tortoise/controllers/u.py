@@ -55,10 +55,23 @@ class UController(BaseController):
         c.userProfile = userProfile
         c.userBase  = userBase
 
-        c.subscribes = webhelpers.paginate.Page(
+        c.paginate = webhelpers.paginate.Page(
                   UserSubscribe.getSubscribeByUser(get_auth_id()),
                   page = int(request.params.get('page',1)),
                   items_per_page = 10)
+
+        c.subscribes = []
+
+        for subscribe in c.paginate:
+            r = {}
+            s = FeedSource.getFeedSourceById(subscribe.source_id)
+            r['id'] = subscribe.id
+            r['name'] = s.name
+            r['url'] = s.url
+            r['add_time'] = subscribe.add_time
+            c.subscribes.append(r);
+
+
 
         return render('/u/index.html')
     
