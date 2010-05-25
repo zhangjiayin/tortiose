@@ -46,10 +46,10 @@
     <div class="span-24 last" >
         <ul id="feed_container">
             % for subscribe in c.subscribes:
-            <li>${subscribe.id}  ${subscribe.add_time}</li>
+            <li> ${subscribe['name']}  ${subscribe['url']} ${subscribe['id']}  ${subscribe['add_time']}</li>
             % endfor
         </ul>
-        ${c.subscribes.pager()}<br />
+        ${c.paginate.pager()}<br />
     </div>
     <hr />
 </div>
