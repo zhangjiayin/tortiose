@@ -6,6 +6,7 @@ from sqlalchemy.sql import and_
 
 from tortoise.model import meta
 
+
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""
     ## Reflected tables must be defined and mapped here
@@ -29,7 +30,7 @@ def init_model(engine):
 #
 #orm.mapper(Foo, foo_table)
 
-user_table = sa.Table("user", meta.metadata,
+user_table = sa.Table("user",meta.metadata,
         sa.Column("id", sa.types.String(40), primary_key=True),
         sa.Column("email", sa.types.String(50), nullable=False),
         sa.Column("nick", sa.types.String(50), nullable=False),
@@ -43,6 +44,23 @@ user_profile_table = sa.Table("user_profile", meta.metadata,
         sa.Column("birthday", sa.types.DateTime, nullable=False),
         sa.Column("carrer", sa.types.UnicodeText, nullable=False),
         sa.Column("google_account", sa.types.UnicodeText, nullable=False),
+        )
+
+user_subscribe_table = sa.Table("user_subscribe", meta.metadata,
+        sa.Column("id", sa.types.String(40), primary_key=True),
+        sa.Column("source_id", sa.types.String(40), nullable=False),
+        sa.Column("add_time", sa.types.Integer, nullable=False),
+        sa.schema.PrimaryKeyConstraint('id', 'source_id'),
+)
+
+
+feed_source_table = sa.Table("feed_source", meta.metadata,
+        sa.Column("id", sa.types.String(32), primary_key=True),
+        sa.Column("name", sa.types.String(20), nullable=False),
+        sa.Column("url", sa.types.String(255), nullable=False),
+        sa.Column("add_time", sa.types.Integer, nullable=False),
+        sa.Column("update_time", sa.types.Integer, nullable=False),
+
         )
 
 class UserBase(object):
@@ -94,8 +112,49 @@ class UserProfile(object):
     def getUserProfileById(cls, id):
         return cls.getQuery().filter(UserProfile.id==id).first()
 
+class UserSubscribe(object):
+    query = None
+
+    @classmethod
+    def getQuery(cls):
+        if cls.query == None:
+            cls.query = meta.Session.query(UserSubscribe)
+        return cls.query
+
+    @classmethod
+    def getUserSubscribeById(cls, id, source_id):
+        return cls.getQuery().filter(and_(UserSubscribe.id==id, UserSubscribe.source_id==source_id)).first()
+
+    @classmethod
+    def getSubscribeByUser(cls,id):
+        q = cls.getQuery().filter(and_(UserSubscribe.id==id))
+        q.order_by(UserSubscribe.add_time.desc())
+        return q.all()
+
+class FeedSource(object):
+
+    query = None
+
+    @classmethod
+    def getQuery(cls):
+        if cls.query == None:
+            cls.query = meta.Session.query(FeedSource)
+        return cls.query
+
+    @classmethod
+    def getFeedSourceById(cls, id):
+        return cls.getQuery().filter(FeedSource.id==id).first()
+
+    def init(self):
+        pass
+
+#user_subscribe
+
 orm.mapper(UserBase, user_table)
 orm.mapper(UserProfile, user_profile_table)
+orm.mapper(UserSubscribe, user_subscribe_table)
+
+orm.mapper(FeedSource, feed_source_table)
 
 
 

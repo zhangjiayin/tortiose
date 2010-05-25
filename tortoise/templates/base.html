@@ -8,21 +8,21 @@
         % endif
         ${h.stylesheet_link('/css/screen.css',  media="screen, projection")}
         ${h.stylesheet_link('/css/print.css',  media="screen")}
+        ${h.stylesheet_link('/css/print.css',  media="screen")}
         <!--[if lt IE 8]><link rel="stylesheet" href="/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
 
         % if hasattr(self, 'css'):
-            % for item in c.css():
-                ${h.stylesheet_link(item)}
-            % endfor
+        ${self.css()}
         % endif
 
+        ${h.javascript_link('/js/common/jquery.js')}
+        ${h.javascript_link('/js/common/common.js')}
         % if hasattr(self, 'js'):
-            % for item in c.css():
-                ${h.javascript_link(item)}
-            % endfor
+        ${self.js()}
         % endif
     </head>
     <body>
+        <div class="span-24"><a href="/">到首页</a></div>
         ${self.body()}
     </body>
 </html>

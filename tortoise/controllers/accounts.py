@@ -15,6 +15,7 @@ from tortoise.model.account import *
 import uuid, hashlib,time
 
 from pylons import session
+from pylons import config
 
 import socket, struct
 import formencode
@@ -52,7 +53,7 @@ class AccountsController(BaseController):
 
 	    meta.Session.add(userBase)
 	    meta.Session.flush()
-            session['auth_user_id'] = userBase.id
+            session[config['auth_user_id']] = userBase.id
             session['auth_user'] = userBase
             session.save()
 	    redirect_to('/')
@@ -66,9 +67,8 @@ class AccountsController(BaseController):
     @validate(schema=LoginForm(), form='login', post_only=False, on_get=True,auto_error_formatter=account_formatter)
     def loginauth(self):
         userBase = UserBase.auth(request.params.get('email'),hashlib.md5(request.params.get('password')).hexdigest())
-
         if(userBase):
-            session['auth_user_id'] = userBase.id
+            session[config['auth_user_id']] = userBase.id
             session['auth_user'] = userBase
             session.save()
 	    redirect_to('/')

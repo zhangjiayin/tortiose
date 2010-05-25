@@ -25,6 +25,11 @@ from tortoise.lib.pyrfeed.GoogleReader import *
 
 from tortoise.lib.auth import *
 
+import webhelpers.paginate
+from webhelpers import pagination
+
+from pylons import config
+
 log = logging.getLogger(__name__)
 
 class UController(BaseController):
@@ -34,9 +39,9 @@ class UController(BaseController):
         # Return a rendered template
         #return render('/u.mako')
         # or, return a response
-
-        userBase = UserBase.getUserBaseById(session['auth_user_id'])
+        userBase = UserBase.getUserBaseById(session[config['auth_user_id']])
         userProfile = UserProfile.getUserProfileById(userBase.id)
+        """
         if userProfile != None  and userProfile.google_account:
             google_account = json.loads(userProfile.google_account)
             c.google_account = google_account
@@ -46,8 +51,15 @@ class UController(BaseController):
                 c.logined = True
             else:
                 c.logined = False
+        """
         c.userProfile = userProfile
         c.userBase  = userBase
+
+        c.subscribes = webhelpers.paginate.Page(
+                  UserSubscribe.getSubscribeByUser(get_auth_id()),
+                  page = int(request.params.get('page',1)),
+                  items_per_page = 10)
+
         return render('/u/index.html')
     
     @require_login
