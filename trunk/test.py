@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 from tortoise.lib.pyrfeed.GoogleReader import *
 gr = GoogleReader()
-gr.identify('zhangjiayin99@gmail.com', 'mql860206')
+gr.identify('', '')
 
 if gr.login():
     print "Login OK"
