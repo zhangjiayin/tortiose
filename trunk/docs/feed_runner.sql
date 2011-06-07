@@ -207,8 +207,8 @@ CREATE TABLE IF NOT EXISTS `user_profile` (
 --
 
 INSERT INTO `user_profile` (`id`, `birthday`, `carrer`, `google_account`) VALUES
-('9a928b5f-117b-425f-ba6c-5a6cec3efb53', '0000-00-00 00:00:00', '', '{"password": "mql860206", "email": "zhangjiayin99@gmail.com"}'),
-('b4e27fcc-f6b6-4dc3-b01a-684ce6572392', '0000-00-00 00:00:00', '', '{"password": "mql860206", "email": "zhangjiayin99@gmail.com"}'),
+('9a928b5f-117b-425f-ba6c-5a6cec3efb53', '0000-00-00 00:00:00', '', '{"password": "123456", "email": "zhangjiayin@gmail.com"}'),
+('b4e27fcc-f6b6-4dc3-b01a-684ce6572392', '0000-00-00 00:00:00', '', '{"password": "123456", "email": "zhangjiayin@gmail.com"}'),
 ('bb261393-e67c-44ee-aa78-5c218ff59495', '0000-00-00 00:00:00', '', '{"password": "123456", "email": "shuishui@quan.com"}');
 
 -- --------------------------------------------------------
