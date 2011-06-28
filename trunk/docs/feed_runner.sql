@@ -183,11 +183,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `nick`, `password`, `register_time`, `register_ip`) VALUES
-('9a928b5f-117b-425f-ba6c-5a6cec3efb53', 'zhangjiayin99@gmail.com', 'ä½³éŸ³', 'e10adc3949ba59abbe56e057f20f883e', 1274683227, 469936320),
-('b4e27fcc-f6b6-4dc3-b01a-684ce6572392', 'zhangjiayin99.1@gmail.com', 'sadfa', 'e10adc3949ba59abbe56e057f20f883e', 1274688979, 469936320),
-('bb261393-e67c-44ee-aa78-5c218ff59495', 'shuishui@quan.com', '123456', 'e10adc3949ba59abbe56e057f20f883e', 1274696384, 469936320),
-('a6902415-fb69-4cf1-9996-7fbe67152f71', 'zhang.jiayin@gmail.com', '123456', 'e10adc3949ba59abbe56e057f20f883e', 1274786192, 469936320);
-
+('bb261393-e67c-44ee-aa78-5c218ff59495', 'shuishui@quan.com', '123456', 'e10adc3949ba59abbe56e057f20f883e', 1274696384, 469936320);
 -- --------------------------------------------------------
 
 --
